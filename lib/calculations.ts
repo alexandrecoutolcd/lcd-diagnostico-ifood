@@ -12,22 +12,6 @@ export function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
-function lerp(x: number, x0: number, y0: number, x1: number, y1: number): number {
-  if (x1 === x0) return y0;
-  const t = (x - x0) / (x1 - x0);
-  return y0 + t * (y1 - y0);
-}
-
-function interpolateCurve(x: number, points: [number, number][]): number {
-  if (x <= points[0][0]) return points[0][1];
-  for (let i = 0; i < points.length - 1; i++) {
-    const [x0, y0] = points[i];
-    const [x1, y1] = points[i + 1];
-    if (x >= x0 && x <= x1) return lerp(x, x0, y0, x1, y1);
-  }
-  return points[points.length - 1][1];
-}
-
 /** Faturamento Líquido, % Taxas e % Promoções de um único mês. */
 export function monthDerived(month: MonthData): Omit<MonthDerived, keyof MonthData> {
   const { totalVendas, taxasComissoes, servicosPromocoes, ajustes } = month;
@@ -123,23 +107,6 @@ export function platformReference(pctTaxas: number): PlatformReference {
   return { ...nearest, diff, acimaDaReferencia: diff > 1.5 };
 }
 
-/** Nota Geral (0-100) combinando %Promoções (peso maior) e %Taxas. */
-export function scoreGeral(pctPromocoes: number, pctTaxas: number): number {
-  const promoScore = interpolateCurve(pctPromocoes, [
-    [0, 80],
-    [5, 92],
-    [7, 100],
-    [11, 78],
-    [15, 55],
-    [25, 20],
-    [35, 4],
-  ]);
-  const diff = Math.min(Math.abs(pctTaxas - 15.2), Math.abs(pctTaxas - 26.2));
-  const taxScore = clamp(100 - diff * 9, 0, 100);
-  const final = promoScore * 0.75 + taxScore * 0.25;
-  return Math.round(clamp(final, 0, 100));
-}
-
 /** Quanto custa, em R$, gerar uma venda de ticket médio ao %Promoções atual. */
 export function acquisitionCost(ticketMedio: number, pctPromocoes: number): number {
   return (Number(ticketMedio) || 0) * ((Number(pctPromocoes) || 0) / 100);
@@ -171,6 +138,16 @@ export function recommendations(
       title: "Reduzir promoções gradualmente",
       detail:
         "Corte a intensidade das campanhas em etapas, monitorando o efeito no volume de pedidos a cada ajuste.",
+    });
+    recs.push({
+      title: "Revisar o cardápio",
+      detail:
+        "Itens com margem baixa sustentados por promoções pesadas costumam ser os principais responsáveis pela erosão do lucro. Reavalie preços, porções e o mix de produtos.",
+    });
+    recs.push({
+      title: "Revisitar a gestão de CMV e financeira do restaurante",
+      detail:
+        "Antes de investir mais em aquisição, confirme se o Custo da Mercadoria Vendida e o controle financeiro do dia a dia estão saudáveis — promoção não corrige margem quebrada.",
     });
   }
   if (classification.zone >= 3) {

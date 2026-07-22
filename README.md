@@ -116,22 +116,45 @@ planilha a cada envio, sem custo e sem infraestrutura extra.
    Web App do Apps Script (a mesma do `.env.local`).
 4. Deploy. A cada `git push` na branch principal, a Vercel publica automaticamente.
 
-## Cores da marca
+## Cores da marca — paleta "LCD"
 
-| Token | Uso | Valor |
+| Grupo | Token | Valor |
 |---|---|---|
-| `--bg` | Fundo do dashboard | `#0B0B0B` |
-| `--card` | Cards | `#131313` |
-| `--border` | Bordas | `#252525` |
-| `--heading` | Títulos (sempre caixa alta, Barlow Condensed) | `#F0EDE8` |
-| `--body` | Corpo de texto (IBM Plex Sans) | `#B8B4AE` |
-| `--accent-pos` | Destaque positivo (números/ícones) | `#00BBF9` |
-| `--accent-neg` | Destaque negativo (números/ícones) | `#f91719` |
-| `--accent-big-pos` | Big numbers positivos | `#46fe6c` |
+| Fundo | `--bg` | `#F6F8FB` |
+| Fundo | `--card` | `#FFFFFF` |
+| Fundo | `--card-secondary` | `#FBFCFE` |
+| Bordas | `--border` | `#E5EAF2` |
+| Bordas | `--border-strong` | `#D6DEE8` |
+| Bordas | `--divider` | `#EEF2F7` |
+| Texto | `--heading` (títulos, sempre caixa alta) | `#172B4D` |
+| Texto | `--body` | `#42526E` |
+| Texto | `--body-secondary` | `#6B778C` |
+| Texto | `--muted` | `#A5ADBA` |
+| Identidade / CTA | `--brand` | `#C41D33` |
+| Identidade / CTA | `--brand-hover` | `#A5172B` |
+| Indicador positivo | `--accent-pos` | `#2563EB` |
+| Indicador negativo | `--accent-neg` | `#DC2626` |
+| Alerta | `--alert` | `#F59E0B` |
 
-O "Termômetro de Aquisição" (a barra de 5 zonas usada na classificação e no
-simulador) usa um espectro derivado da marca: azul → verde (`--accent-big-pos`,
-a faixa ideal) → âmbar → laranja → vermelho (`--accent-neg`, a faixa de alerta).
+O "Termômetro de Aquisição" (barra de 5 zonas usada na classificação e no
+simulador) usa: azul claro → azul principal (`--zone-2`, a faixa ideal) →
+laranja → vermelho claro → vermelho da marca (`--zone-5`, a faixa de alerta
+máximo).
+
+## Tipografia
+
+Título (`.heading`, sempre em caixa alta): **Poppins, peso 700 (negrito)**.
+Corpo de texto: **Poppins, peso 400 (normal)**. Ambos carregados via
+`next/font/google` em `app/layout.tsx` — não precisa importar nada manualmente.
+
+## Logo
+
+O arquivo `public/logo.svg` contém um **placeholder** (um ícone genérico +
+"DIAGNÓSTICO" em Poppins) só para o layout não ficar vazio. Substitua esse
+arquivo pelo seu `logo.svg` real (vermelho da marca, fundo transparente,
+altura recomendada entre 28–32px) mantendo exatamente o mesmo nome e caminho
+— o `TopBar` já aponta para `/logo.svg`, então a troca é só arrastar o
+arquivo novo para dentro de `public/`.
 
 ## Máscara de valores em Real
 
