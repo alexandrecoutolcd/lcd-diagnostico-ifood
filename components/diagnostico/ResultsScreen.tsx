@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   CheckCircle2,
   ChevronRight,
+  Download,
   Flame,
   Gauge as GaugeIcon,
   MessageCircle,
@@ -85,9 +86,11 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
 
   return (
     <div className="max-w-6xl mx-auto px-5 md:px-8 pt-8 pb-28">
-      <StepProgress current={3} />
+      <div className="print:hidden">
+        <StepProgress current={3} />
+      </div>
 
-      <div className="df-fadeup flex flex-col md:flex-row md:items-end justify-between gap-2 mt-6 mb-8">
+      <div className="df-fadeup flex flex-col md:flex-row md:items-end justify-between gap-3 mt-6 mb-8 print:mt-0">
         <div>
           <div className="mono-num text-xs uppercase tracking-wide text-body mb-1.5">
             Diagnóstico da sua loja
@@ -96,6 +99,14 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
             Olá, {firstName}. Aqui está o retrato dos últimos 3 meses.
           </h1>
         </div>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => window.print()}
+          className="print:hidden shrink-0"
+        >
+          <Download size={14} /> Baixar PDF
+        </Button>
       </div>
 
       {/* KPIs */}
@@ -179,7 +190,7 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
             step={0.1}
             value={simPct}
             onChange={(e) => setSimPct(parseFloat(e.target.value))}
-            className="df-slider w-full mb-2"
+            className="df-slider w-full mb-2 print:hidden"
           />
           <div className="flex justify-between mono-num text-[10px] text-body mb-8">
             <span>0%</span>
@@ -321,7 +332,7 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
               Nossa consultoria ajuda restaurantes a encontrar o ponto ideal de investimento em
               promoções dentro do iFood — sem abrir mão de volume de vendas.
             </p>
-            <Button variant="dark" size="lg" onClick={() => setSent(true)} className="mx-auto">
+            <Button variant="dark" size="lg" onClick={() => setSent(true)} className="mx-auto print:hidden">
               <MessageCircle size={16} /> Quero falar com um consultor
             </Button>
           </>
@@ -338,7 +349,7 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
         )}
       </Card>
 
-      <div className="text-center mt-8">
+      <div className="text-center mt-8 print:hidden">
         <Button variant="ghost" size="sm" onClick={onRestart}>
           Refazer diagnóstico
         </Button>

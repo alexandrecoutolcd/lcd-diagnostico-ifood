@@ -183,3 +183,23 @@ body {
     animation: none !important;
   }
 }
+
+@media print {
+  html,
+  body {
+    background: #ffffff !important;
+  }
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #e5e7eb !important;
+    break-inside: avoid;
+  }
+  .df-fadeup {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  @page {
+    margin: 12mm;
+  }
+}

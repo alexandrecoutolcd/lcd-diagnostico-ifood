@@ -10,7 +10,7 @@ interface TopBarProps {
 
 export function TopBar({ showBack, onBack }: TopBarProps) {
   return (
-    <div className="w-full sticky top-0 z-30 backdrop-blur-sm bg-bg/85 border-b border-border">
+    <div className="w-full sticky top-0 z-30 backdrop-blur-sm bg-bg/85 border-b border-border print:hidden">
       <div className="max-w-6xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
         <img src="/logo.svg" alt="Logo" className="h-7 w-auto" />
         {showBack && onBack && (
