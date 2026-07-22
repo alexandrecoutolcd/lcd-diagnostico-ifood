@@ -42,9 +42,8 @@ export function DiagnosticoApp() {
   }, [step]);
 
   function restart() {
-    setStep("landing");
-    setLead(null);
     setMonths([{ ...EMPTY_MONTH }, { ...EMPTY_MONTH }, { ...EMPTY_MONTH }]);
+    setStep("input");
   }
 
   return (
