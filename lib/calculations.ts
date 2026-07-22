@@ -185,32 +185,3 @@ export function recommendations(
   }
   return recs;
 }
-/** Nota geral do diagnóstico (0 a 100). */
-export function scoreGeral(
-  pctPromocoes: number,
-  pctTaxas: number
-): number {
-  let score = 100;
-
-  // Penalização pelo investimento em promoções
-  if (pctPromocoes <= 5) {
-    score -= 5;
-  } else if (pctPromocoes <= 7) {
-    score -= 10;
-  } else if (pctPromocoes <= 11) {
-    score -= 25;
-  } else if (pctPromocoes <= 15) {
-    score -= 45;
-  } else {
-    score -= 65;
-  }
-
-  // Penalização pelas taxas do iFood
-  if (pctTaxas > 26.2) {
-    score -= 15;
-  } else if (pctTaxas > 15.2) {
-    score -= 5;
-  }
-
-  return clamp(Math.round(score), 0, 100);
-}

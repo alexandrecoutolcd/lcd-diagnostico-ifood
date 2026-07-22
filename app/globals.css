@@ -3,19 +3,54 @@
 @tailwind utilities;
 
 :root {
-  --bg: #0b0b0b;
-  --card: #131313;
-  --border: #252525;
-  --heading: #f0ede8;
-  --body: #b8b4ae;
-  --accent-pos: #00bbf9;
-  --accent-neg: #f91719;
-  --accent-big-pos: #46fe6c;
-  --zone-1: #00bbf9;
-  --zone-2: #46fe6c;
-  --zone-3: #ffb020;
-  --zone-4: #ff6a3d;
-  --zone-5: #f91719;
+  /* Fundo */
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --card-secondary: #fbfcfe;
+
+  /* Bordas */
+  --border: #e5eaf2;
+  --border-strong: #d6dee8;
+  --divider: #eef2f7;
+
+  /* Textos */
+  --heading: #172b4d;
+  --body: #42526e;
+  --body-secondary: #6b778c;
+  --muted: #a5adba;
+
+  /* Identidade / CTA */
+  --brand: #c41d33;
+  --brand-hover: #a5172b;
+  --brand-light: #fcecef;
+  --brand-xlight: #fff5f6;
+
+  /* Indicadores positivos (azul) */
+  --accent-pos: #2563eb;
+  --accent-pos-hover: #1d4ed8;
+  --accent-pos-light: #dbeafe;
+  --accent-big-pos: #2563eb;
+
+  /* Indicadores negativos (vermelho) */
+  --accent-neg: #dc2626;
+  --accent-neg-hover: #b91c1c;
+  --accent-neg-light: #fee2e2;
+
+  /* Alerta */
+  --alert: #f59e0b;
+  --alert-light: #fef3c7;
+
+  /* Termômetro de aquisição */
+  --zone-1: #60a5fa;
+  --zone-2: #2563eb;
+  --zone-3: #f59e0b;
+  --zone-4: #ef4444;
+  --zone-5: #c41d33;
+
+  /* Sombras */
+  --shadow-sm: rgba(15, 23, 42, 0.04);
+  --shadow-md: rgba(15, 23, 42, 0.08);
+  --shadow-lg: rgba(15, 23, 42, 0.12);
 }
 
 * {
@@ -29,11 +64,13 @@ body {
 }
 
 body {
-  font-family: var(--font-body), "IBM Plex Sans", system-ui, sans-serif;
+  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-weight: 400;
 }
 
 .heading {
-  font-family: var(--font-heading), "Barlow Condensed", sans-serif;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-weight: 700;
   color: var(--heading);
   text-transform: uppercase;
   letter-spacing: 0.01em;
@@ -43,10 +80,11 @@ body {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 18px;
+  box-shadow: 0 1px 2px var(--shadow-sm), 0 8px 24px -8px var(--shadow-md);
 }
 
 .mono-num {
-  font-family: var(--font-body), "IBM Plex Sans", monospace;
+  font-family: var(--font-poppins), "Poppins", sans-serif;
   font-feature-settings: "tnum";
 }
 
@@ -120,16 +158,17 @@ body {
   height: 22px;
   border-radius: 50%;
   background: var(--card);
-  border: 3px solid var(--heading);
+  border: 3px solid var(--brand);
   cursor: pointer;
   margin-top: -8px;
+  box-shadow: 0 1px 4px var(--shadow-md);
 }
 .df-slider::-moz-range-thumb {
   width: 22px;
   height: 22px;
   border-radius: 50%;
   background: var(--card);
-  border: 3px solid var(--heading);
+  border: 3px solid var(--brand);
   cursor: pointer;
 }
 

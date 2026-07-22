@@ -11,12 +11,12 @@ export function LandingScreen({ onStart }: { onStart: () => void }) {
         <div className="inline-flex items-center gap-2 mono-num text-xs uppercase tracking-wider px-3 py-1.5 rounded-full mb-7 border border-border text-body">
           <Store size={13} /> Para restaurantes que vendem pelo iFood
         </div>
-        <h1 className="heading text-[2.3rem] leading-[1.08] md:text-6xl font-semibold mb-6 max-w-3xl">
-          O iFood não é o seu problema. A forma como você usa promoções pode ser.
+        <h1 className="heading text-[2.1rem] leading-[1.15] md:text-5xl font-semibold mb-6 max-w-3xl">
+          Se você gasta mais com Serviços e Promoções no iFood do que a própria taxa padrão deles, você está enrolado.
         </h1>
         <p className="text-body text-lg md:text-xl max-w-2xl leading-relaxed mb-10 normal-case">
-          Em 5 minutos, transforme o extrato financeiro do seu restaurante em um diagnóstico que
-          mostra exatamente onde seu lucro está sendo consumido — e quanto isso custa por mês.
+          Em 5 minutos, transforme o extrato financeiro do seu iFood em um diagnóstico que mostra
+          exatamente onde seu lucro está sendo consumido — e quanto isso custa por mês.
         </p>
         <div className="flex flex-wrap items-center gap-4">
           <Button size="lg" onClick={onStart}>
@@ -62,7 +62,7 @@ export function LandingScreen({ onStart }: { onStart: () => void }) {
               className="absolute inset-0 opacity-90"
               style={{
                 background:
-                  "radial-gradient(circle at 30% 30%, rgba(0,187,249,0.25), transparent 60%)",
+                  "radial-gradient(circle at 30% 30%, rgba(196,29,51,0.12), transparent 60%)",
               }}
             />
             <div className="relative w-14 h-14 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 bg-heading">

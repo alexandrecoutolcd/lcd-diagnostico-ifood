@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, IBM_Plex_Sans } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const barlowCondensed = Barlow_Condensed({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const ibmPlexSans = IBM_Plex_Sans({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-body",
+  variable: "--font-poppins",
   display: "swap",
 });
 
@@ -28,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${barlowCondensed.variable} ${ibmPlexSans.variable}`}>
+    <html lang="pt-BR" className={poppins.variable}>
       <body className="bg-bg text-body min-h-screen antialiased">{children}</body>
     </html>
   );

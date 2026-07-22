@@ -45,7 +45,7 @@ export function CurrencyInput({ value, onChange, placeholder, className, id }: C
         onBlur={() => (isFocused.current = false)}
         placeholder={placeholder ?? "0,00"}
         className={cn(
-          "mono-num w-full pl-11 pr-4 py-3 text-sm bg-card border border-border rounded-xl text-heading",
+          "mono-num w-full pl-11 pr-4 py-3 text-sm bg-bg border border-border rounded-xl text-heading",
           "focus:outline-none focus:border-accent-pos focus:ring-2 focus:ring-accent-pos/20",
           className
         )}

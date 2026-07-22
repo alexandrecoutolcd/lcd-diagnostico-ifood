@@ -9,10 +9,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-heading text-bg hover:opacity-90 active:translate-y-px",
-        ghost: "border border-border text-body hover:border-body hover:text-heading bg-transparent",
-        accent: "bg-accent-pos text-bg hover:opacity-90",
-        dark: "bg-card border border-border text-heading hover:border-body",
+        primary: "bg-brand text-white hover:bg-brand-hover active:translate-y-px",
+        ghost: "border border-border text-body hover:border-border-strong hover:text-heading bg-transparent",
+        accent: "bg-accent-pos text-white hover:bg-accent-pos-hover",
+        dark: "bg-white text-brand border border-white hover:bg-brand-xlight",
       },
       size: {
         sm: "px-3 py-1.5 text-xs",

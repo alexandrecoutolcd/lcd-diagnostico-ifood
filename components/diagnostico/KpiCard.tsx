@@ -13,7 +13,7 @@ export function KpiCard({ label, value, icon, accentColor }: KpiCardProps) {
       <div className="flex items-center justify-between mb-3">
         <span className="mono-num text-[10px] uppercase tracking-wide text-body">{label}</span>
         <div
-          className="w-7 h-7 rounded-full flex items-center justify-center bg-bg"
+          className="w-7 h-7 rounded-full flex items-center justify-center bg-gray-100"
           style={{ color: accentColor || "var(--accent-pos)" }}
         >
           {icon}

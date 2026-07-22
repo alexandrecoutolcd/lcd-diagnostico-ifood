@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   CheckCircle2,
   ChevronRight,
+  Flame,
   Gauge as GaugeIcon,
   MessageCircle,
   Percent,
@@ -15,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { StepProgress } from "./StepProgress";
 import { KpiCard } from "./KpiCard";
-import { Gauge } from "./Gauge";
 import { AcquisitionThermometer } from "./AcquisitionThermometer";
 import { MonthlyBarChart } from "./charts/MonthlyBarChart";
 import { DistributionPie } from "./charts/DistributionPie";
@@ -26,7 +26,6 @@ import {
   classify,
   platformReference,
   recommendations,
-  scoreGeral,
   simulate,
 } from "@/lib/calculations";
 import { formatBRL, formatPercentBR } from "@/lib/format";
@@ -50,7 +49,6 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
   const avg = useMemo(() => averages(months), [months]);
   const classification = useMemo(() => classify(avg.pctPromocoes), [avg]);
   const platformRef = useMemo(() => platformReference(avg.pctTaxas), [avg]);
-  const score = useMemo(() => scoreGeral(avg.pctPromocoes, avg.pctTaxas), [avg]);
   const cost = useMemo(() => acquisitionCost(avg.ticketMedio, avg.pctPromocoes), [avg]);
   const recs = useMemo(
     () => recommendations(avg, classification, platformRef),
@@ -101,7 +99,7 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6 df-fadeup df-delay-1">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6 df-fadeup df-delay-1">
         <KpiCard label="Total Vendido (média)" value={formatBRL(avg.totalVendas)} icon={<Wallet size={14} />} />
         <KpiCard
           label="Faturamento Líquido"
@@ -122,7 +120,6 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
           icon={<GaugeIcon size={14} />}
           accentColor={zoneColor}
         />
-        <KpiCard label="Nota Geral" value={String(score)} icon={<Sparkles size={14} />} />
       </div>
 
       {/* Termômetro / classificação */}
@@ -151,26 +148,98 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
         </p>
       </Card>
 
-      {/* Gráficos */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
-        <Card className="p-6 lg:col-span-2 df-fadeup df-delay-2">
-          <div className="heading font-semibold mb-1">Taxas, Promoções e Lucro por mês</div>
-          <div className="text-body text-xs mb-2 normal-case">
-            Comparação mês a mês dos três principais indicadores.
+      {/* Simulador — em destaque, logo após a classificação */}
+      <Card className="p-6 md:p-8 mb-6 df-fadeup df-delay-2 border-2 border-brand relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-40 h-40 rounded-full -translate-y-16 translate-x-16 bg-brand-xlight" />
+        <div className="relative">
+          <div className="inline-flex items-center gap-1.5 mono-num text-[11px] uppercase tracking-wider font-semibold px-3 py-1.5 rounded-full mb-4 bg-brand text-white">
+            <Flame size={12} /> Simule o impacto agora
           </div>
-          <MonthlyBarChart months={months} />
-        </Card>
-        <Card className="p-6 flex flex-col items-center justify-center df-fadeup df-delay-3">
-          <div className="heading font-semibold mb-1 self-start">Nota do diagnóstico</div>
-          <Gauge score={score} />
-        </Card>
-      </div>
+          <div className="heading text-2xl font-semibold mb-1">
+            E se você reduzisse as promoções?
+          </div>
+          <p className="text-body text-sm mb-7 normal-case">
+            Arraste para simular um novo percentual de investimento em promoções e veja o quanto
+            de lucro isso devolveria para o seu bolso.
+          </p>
+
+          <div className="mb-2 flex items-center justify-between">
+            <span className="mono-num text-xs text-body">Novo % de Promoções</span>
+            <span
+              className="mono-num text-xl font-bold"
+              style={{ color: ZONE_COLORS[classify(simPct).zone] }}
+            >
+              {simPct.toFixed(1)}%
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={30}
+            step={0.1}
+            value={simPct}
+            onChange={(e) => setSimPct(parseFloat(e.target.value))}
+            className="df-slider w-full mb-2"
+          />
+          <div className="flex justify-between mono-num text-[10px] text-body mb-8">
+            <span>0%</span>
+            <span>5%</span>
+            <span>7%</span>
+            <span>11%</span>
+            <span>15%</span>
+            <span>30%</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="rounded-xl p-4 bg-card-secondary border border-divider">
+              <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">
+                Novo faturamento líquido / mês
+              </div>
+              <div className="heading text-xl font-semibold">{formatBRL(sim.novoFaturamento)}</div>
+            </div>
+            <div className="rounded-xl p-4 bg-card-secondary border border-divider">
+              <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">
+                Diferença por mês
+              </div>
+              <div
+                className="heading text-xl font-semibold"
+                style={{ color: sim.deltaMensal >= 0 ? "var(--accent-big-pos)" : "var(--accent-neg)" }}
+              >
+                {sim.deltaMensal >= 0 ? "+" : ""}
+                {formatBRL(sim.deltaMensal)}
+              </div>
+            </div>
+            <div className="rounded-xl p-4 bg-card-secondary border border-divider">
+              <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">
+                Diferença por ano
+              </div>
+              <div
+                className="heading text-xl font-semibold"
+                style={{ color: sim.deltaAnual >= 0 ? "var(--accent-big-pos)" : "var(--accent-neg)" }}
+              >
+                {sim.deltaAnual >= 0 ? "+" : ""}
+                {formatBRL(sim.deltaAnual)}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Gráficos */}
+      <Card className="p-6 mb-6 df-fadeup df-delay-2">
+        <div className="heading font-semibold mb-1">Taxas, Promoções e Lucro por mês</div>
+        <div className="text-body text-xs mb-2 normal-case">
+          Comparação mês a mês dos três principais indicadores.
+        </div>
+        <MonthlyBarChart months={months} />
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
         <Card className="p-6 df-fadeup df-delay-3">
           <div className="heading font-semibold mb-1">Para onde vai o seu faturamento</div>
           <div className="text-body text-xs mb-2 normal-case">
-            Distribuição média do total vendido nos 3 meses.
+            Distribuição média do total vendido nos 3 meses. Passe o mouse para ver o percentual
+            de cada fatia.
           </div>
           <DistributionPie avg={avg} />
         </Card>
@@ -225,80 +294,12 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
         </p>
       </Card>
 
-      {/* Simulador */}
-      <Card className="p-6 md:p-8 mb-6 df-fadeup df-delay-4">
-        <div className="heading font-semibold mb-1">Simulador: e se você reduzisse as promoções?</div>
-        <p className="text-body text-xs mb-6 normal-case">
-          Arraste para simular um novo percentual de investimento em promoções.
-        </p>
-
-        <div className="mb-2 flex items-center justify-between">
-          <span className="mono-num text-xs text-body">Novo % de Promoções</span>
-          <span
-            className="mono-num text-lg font-semibold"
-            style={{ color: ZONE_COLORS[classify(simPct).zone] }}
-          >
-            {simPct.toFixed(1)}%
-          </span>
-        </div>
-        <input
-          type="range"
-          min={0}
-          max={30}
-          step={0.1}
-          value={simPct}
-          onChange={(e) => setSimPct(parseFloat(e.target.value))}
-          className="df-slider w-full mb-2"
-        />
-        <div className="flex justify-between mono-num text-[10px] text-body mb-8">
-          <span>0%</span>
-          <span>5%</span>
-          <span>7%</span>
-          <span>11%</span>
-          <span>15%</span>
-          <span>30%</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="rounded-xl p-4 bg-bg">
-            <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">
-              Novo faturamento líquido / mês
-            </div>
-            <div className="heading text-xl font-semibold">{formatBRL(sim.novoFaturamento)}</div>
-          </div>
-          <div className="rounded-xl p-4 bg-bg">
-            <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">
-              Diferença por mês
-            </div>
-            <div
-              className="heading text-xl font-semibold"
-              style={{ color: sim.deltaMensal >= 0 ? "var(--accent-big-pos)" : "var(--accent-neg)" }}
-            >
-              {sim.deltaMensal >= 0 ? "+" : ""}
-              {formatBRL(sim.deltaMensal)}
-            </div>
-          </div>
-          <div className="rounded-xl p-4 bg-bg">
-            <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">
-              Diferença por ano
-            </div>
-            <div
-              className="heading text-xl font-semibold"
-              style={{ color: sim.deltaAnual >= 0 ? "var(--accent-big-pos)" : "var(--accent-neg)" }}
-            >
-              {sim.deltaAnual >= 0 ? "+" : ""}
-              {formatBRL(sim.deltaAnual)}
-            </div>
-          </div>
-        </div>
-      </Card>
-
       {/* Recomendações */}
       <Card className="p-6 md:p-8 mb-6 df-fadeup df-delay-4">
         <div className="heading font-semibold mb-4">Recomendações para os próximos 90 dias</div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {recs.map((r, i) => (
-            <div key={i} className="flex gap-3 p-4 rounded-xl bg-bg">
+            <div key={i} className="flex gap-3 p-4 rounded-xl bg-card-secondary border border-divider">
               <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-accent-pos" />
               <div>
                 <div className="text-sm font-semibold mb-0.5 text-heading">{r.title}</div>
@@ -310,13 +311,13 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
       </Card>
 
       {/* CTA consultoria */}
-      <Card className="p-8 md:p-10 text-center df-fadeup df-delay-4 bg-heading" style={{ background: "var(--heading)", border: "none" }}>
+      <Card className="p-8 md:p-10 text-center df-fadeup df-delay-4 border-none" style={{ background: "var(--brand)" }}>
         {!sent ? (
           <>
-            <div className="heading text-2xl font-semibold mb-2 text-bg">
+            <div className="heading text-2xl font-semibold mb-2 text-white">
               Quer transformar este diagnóstico em um plano de ação?
             </div>
-            <p className="text-sm mb-6 max-w-lg mx-auto text-bg/80 normal-case">
+            <p className="text-sm mb-6 max-w-lg mx-auto text-white/85 normal-case">
               Nossa consultoria ajuda restaurantes a encontrar o ponto ideal de investimento em
               promoções dentro do iFood — sem abrir mão de volume de vendas.
             </p>
@@ -326,11 +327,11 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
           </>
         ) : (
           <>
-            <CheckCircle2 size={28} className="mx-auto mb-3 text-bg" />
-            <div className="heading text-xl font-semibold mb-1 text-bg">
+            <CheckCircle2 size={28} className="mx-auto mb-3 text-white" />
+            <div className="heading text-xl font-semibold mb-1 text-white">
               Recebemos seu pedido, {firstName}.
             </div>
-            <p className="text-sm text-bg/80 normal-case">
+            <p className="text-sm text-white/85 normal-case">
               Nosso time vai te procurar pelo telefone {lead.phone} em breve.
             </p>
           </>
