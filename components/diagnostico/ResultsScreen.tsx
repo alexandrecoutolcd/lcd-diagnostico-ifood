@@ -7,6 +7,7 @@ import {
   Download,
   Flame,
   Gauge as GaugeIcon,
+  Info,
   MessageCircle,
   Percent,
   Sparkles,
@@ -25,6 +26,7 @@ import {
   acquisitionCost,
   averages,
   classify,
+  monthsWithDerived,
   platformReference,
   recommendations,
   simulate,
@@ -61,6 +63,8 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
   const sim = useMemo(() => simulate(avg, simPct), [avg, simPct]);
   const [sent, setSent] = useState(false);
 
+  const monthRows = useMemo(() => monthsWithDerived(months), [months]);
+
   const zoneColor = ZONE_COLORS[classification.zone];
   const firstName = lead.name.split(" ")[0] || "tudo bem";
 
@@ -90,7 +94,11 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
         <StepProgress current={3} />
       </div>
 
-      <div className="df-fadeup flex flex-col md:flex-row md:items-end justify-between gap-3 mt-6 mb-8 print:mt-0">
+      <div className="mb-6">
+        <img src="/logo.svg" alt="Logo" className="h-7 w-auto" />
+      </div>
+
+      <div className="df-fadeup flex flex-col md:flex-row md:items-end justify-between gap-3 mb-8">
         <div>
           <div className="mono-num text-xs uppercase tracking-wide text-body mb-1.5">
             Diagnóstico da sua loja
@@ -100,12 +108,12 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
           </h1>
         </div>
         <Button
-          variant="ghost"
-          size="sm"
+          variant="primary"
+          size="lg"
           onClick={() => window.print()}
-          className="print:hidden shrink-0"
+          className="print:hidden shrink-0 shadow-lg shadow-brand/20"
         >
-          <Download size={14} /> Baixar PDF
+          <Download size={16} /> Baixar PDF
         </Button>
       </div>
 
@@ -305,6 +313,65 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
         </p>
       </Card>
 
+      {/* Dados informados — tabela de conferência */}
+      <Card className="p-6 md:p-8 mb-6 df-fadeup df-delay-4">
+        <div className="heading font-semibold mb-1">Dados informados</div>
+        <div className="text-body text-xs mb-4 normal-case">
+          Os números que você preencheu em cada mês, para você conferir e ter segurança no que
+          está sendo calculado.
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse min-w-[480px]">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-2 pr-4 text-body font-medium text-xs uppercase tracking-wide">
+                  Campo
+                </th>
+                <th className="text-right py-2 px-3 text-body font-medium text-xs uppercase tracking-wide">
+                  Mês 1
+                </th>
+                <th className="text-right py-2 px-3 text-body font-medium text-xs uppercase tracking-wide">
+                  Mês 2
+                </th>
+                <th className="text-right py-2 pl-3 text-body font-medium text-xs uppercase tracking-wide">
+                  Mês 3
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { label: "Total de Vendas", format: (m: (typeof monthRows)[number]) => formatBRL(m.totalVendas) },
+                { label: "Taxas e Comissões", format: (m: (typeof monthRows)[number]) => formatBRL(m.taxasComissoes) },
+                { label: "Serviços e Promoções", format: (m: (typeof monthRows)[number]) => formatBRL(m.servicosPromocoes) },
+                { label: "Ajustes", format: (m: (typeof monthRows)[number]) => formatBRL(m.ajustes) },
+                { label: "Ticket Médio", format: (m: (typeof monthRows)[number]) => formatBRL(m.ticketMedio) },
+                {
+                  label: "Faturamento Líquido (calculado)",
+                  format: (m: (typeof monthRows)[number]) => formatBRL(m.faturamentoLiquido),
+                },
+                {
+                  label: "% Taxas (calculado)",
+                  format: (m: (typeof monthRows)[number]) => formatPercentBR(m.pctTaxas),
+                },
+                {
+                  label: "% Promoções (calculado)",
+                  format: (m: (typeof monthRows)[number]) => formatPercentBR(m.pctPromocoes),
+                },
+              ].map((row) => (
+                <tr key={row.label} className="border-b border-divider">
+                  <td className="py-2 pr-4 text-heading font-medium whitespace-nowrap">{row.label}</td>
+                  {monthRows.map((m, i) => (
+                    <td key={i} className="text-right py-2 px-3 mono-num text-body whitespace-nowrap">
+                      {row.format(m)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
       {/* Recomendações */}
       <Card className="p-6 md:p-8 mb-6 df-fadeup df-delay-4">
         <div className="heading font-semibold mb-4">Recomendações para os próximos 90 dias</div>
@@ -348,6 +415,17 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
           </>
         )}
       </Card>
+
+      <div className="flex items-start gap-2.5 mt-6 p-4 rounded-xl bg-card-secondary border border-divider">
+        <Info size={14} className="mt-0.5 shrink-0 text-muted" />
+        <p className="text-[11px] leading-relaxed text-body-secondary normal-case">
+          Este diagnóstico tem caráter informativo e educacional, elaborado exclusivamente a
+          partir dos dados informados por você. Ele não substitui uma consultoria contábil,
+          financeira ou jurídica. Não nos responsabilizamos por decisões, mudanças operacionais ou
+          resultados financeiros decorrentes de ações tomadas com base apenas neste relatório, sem
+          acompanhamento profissional adequado.
+        </p>
+      </div>
 
       <div className="text-center mt-8 print:hidden">
         <Button variant="ghost" size="sm" onClick={onRestart}>
