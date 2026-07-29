@@ -10,63 +10,63 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Fundo
-        bg: "#F6F8FB",
-        card: "#FFFFFF",
-        "card-secondary": "#FBFCFE",
+        // Fundo (LucrandoAI — warm cream / surface white)
+        bg: "#F6EDE6",
+        card: "#FFF9F4",
+        "card-secondary": "#F6EDE6",
 
-        // Bordas e divisões
-        border: "#E5EAF2",
-        "border-strong": "#D6DEE8",
-        divider: "#EEF2F7",
+        // Bordas e divisões (derivadas de border-dark em opacidades diferentes)
+        border: "rgba(76, 34, 35, 0.16)",
+        "border-strong": "rgba(76, 34, 35, 0.32)",
+        divider: "rgba(76, 34, 35, 0.08)",
 
         // Textos
-        heading: "#172B4D",
-        body: "#42526E",
-        "body-secondary": "#6B778C",
-        muted: "#A5ADBA",
+        heading: "#24100F",
+        body: "#24100F",
+        "body-secondary": "#765756",
+        muted: "#765756",
 
         // Identidade / CTA (vermelho da marca)
-        brand: "#C41D33",
-        "brand-hover": "#A5172B",
-        "brand-light": "#FCECEF",
-        "brand-xlight": "#FFF5F6",
+        brand: "#C22236",
+        "brand-hover": "#E5445A",
+        "brand-light": "rgba(194, 34, 54, 0.10)",
+        "brand-xlight": "rgba(194, 34, 54, 0.05)",
 
-        // Indicadores positivos (azul)
-        "accent-pos": "#2563EB",
-        "accent-pos-hover": "#1D4ED8",
-        "accent-pos-light": "#DBEAFE",
-        "accent-pos-xlight": "#EFF6FF",
-        "accent-big-pos": "#2563EB",
+        // Indicadores positivos (verde)
+        "accent-pos": "#2F7D4A",
+        "accent-pos-hover": "#256B3D",
+        "accent-pos-light": "rgba(47, 125, 74, 0.12)",
+        "accent-pos-xlight": "rgba(47, 125, 74, 0.06)",
+        "accent-big-pos": "#2F7D4A",
 
-        // Indicadores negativos (vermelho)
-        "accent-neg": "#DC2626",
-        "accent-neg-hover": "#B91C1C",
-        "accent-neg-light": "#FEE2E2",
-        "accent-neg-xlight": "#FEF2F2",
+        // Indicadores negativos (vermelho da marca)
+        "accent-neg": "#C22236",
+        "accent-neg-hover": "#9C1C2B",
+        "accent-neg-light": "rgba(194, 34, 54, 0.10)",
+        "accent-neg-xlight": "rgba(194, 34, 54, 0.05)",
 
-        // Alertas / atenção
-        alert: "#F59E0B",
-        "alert-light": "#FEF3C7",
+        // Alerta / atenção (rose accent)
+        alert: "#E5445A",
+        "alert-light": "rgba(229, 68, 90, 0.12)",
 
-        // Neutras
-        "gray-100": "#F3F5F8",
-        "gray-300": "#CBD5E1",
-        "gray-700": "#475569",
+        // Neutras (derivadas de deep-brown / muted-brown)
+        "gray-100": "rgba(36, 16, 15, 0.06)",
+        "gray-300": "rgba(36, 16, 15, 0.18)",
+        "gray-700": "#765756",
 
-        // Termômetro de Aquisição (5 zonas, dentro da paleta de gráficos)
-        "zone-1": "#60A5FA",
-        "zone-2": "#2563EB",
-        "zone-3": "#F59E0B",
-        "zone-4": "#EF4444",
-        "zone-5": "#C41D33",
+        // Termômetro de Aquisição (5 zonas, só com tokens validados da paleta)
+        "zone-1": "#765756",
+        "zone-2": "#2F7D4A",
+        "zone-3": "#E5445A",
+        "zone-4": "#C22236",
+        "zone-5": "#1A0F0E",
       },
       fontFamily: {
-        heading: ["var(--font-poppins)", "sans-serif"],
-        body: ["var(--font-poppins)", "sans-serif"],
+        heading: ["var(--font-heading)", "sans-serif"],
+        body: ["var(--font-body)", "monospace"],
       },
       borderRadius: {
-        xl2: "18px",
+        xl2: "20px",
       },
     },
   },

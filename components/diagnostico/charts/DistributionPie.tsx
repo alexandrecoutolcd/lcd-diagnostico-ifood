@@ -34,7 +34,6 @@ export function DistributionPie({ avg }: { avg: Averages }) {
             borderRadius: 10,
             fontSize: 12,
             color: "var(--heading)",
-            boxShadow: "0 4px 16px var(--shadow-md)",
           }}
           itemStyle={{ color: "var(--heading)" }}
           labelStyle={{ color: "var(--heading)", fontWeight: 600 }}

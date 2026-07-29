@@ -4,53 +4,48 @@
 
 :root {
   /* Fundo */
-  --bg: #f6f8fb;
-  --card: #ffffff;
-  --card-secondary: #fbfcfe;
+  --bg: #f6ede6;
+  --card: #fff9f4;
+  --card-secondary: #f6ede6;
 
-  /* Bordas */
-  --border: #e5eaf2;
-  --border-strong: #d6dee8;
-  --divider: #eef2f7;
+  /* Bordas (derivadas de border-dark #4c2223 em opacidades) */
+  --border: rgba(76, 34, 35, 0.16);
+  --border-strong: rgba(76, 34, 35, 0.32);
+  --divider: rgba(76, 34, 35, 0.08);
 
   /* Textos */
-  --heading: #172b4d;
-  --body: #42526e;
-  --body-secondary: #6b778c;
-  --muted: #a5adba;
+  --heading: #24100f;
+  --body: #24100f;
+  --body-secondary: #765756;
+  --muted: #765756;
 
   /* Identidade / CTA */
-  --brand: #c41d33;
-  --brand-hover: #a5172b;
-  --brand-light: #fcecef;
-  --brand-xlight: #fff5f6;
+  --brand: #c22236;
+  --brand-hover: #e5445a;
+  --brand-light: rgba(194, 34, 54, 0.1);
+  --brand-xlight: rgba(194, 34, 54, 0.05);
 
-  /* Indicadores positivos (azul) */
-  --accent-pos: #2563eb;
-  --accent-pos-hover: #1d4ed8;
-  --accent-pos-light: #dbeafe;
-  --accent-big-pos: #2563eb;
+  /* Indicadores positivos (verde) */
+  --accent-pos: #2f7d4a;
+  --accent-pos-hover: #256b3d;
+  --accent-pos-light: rgba(47, 125, 74, 0.12);
+  --accent-big-pos: #2f7d4a;
 
-  /* Indicadores negativos (vermelho) */
-  --accent-neg: #dc2626;
-  --accent-neg-hover: #b91c1c;
-  --accent-neg-light: #fee2e2;
+  /* Indicadores negativos (vermelho da marca) */
+  --accent-neg: #c22236;
+  --accent-neg-hover: #9c1c2b;
+  --accent-neg-light: rgba(194, 34, 54, 0.1);
 
-  /* Alerta */
-  --alert: #f59e0b;
-  --alert-light: #fef3c7;
+  /* Alerta (rose accent) */
+  --alert: #e5445a;
+  --alert-light: rgba(229, 68, 90, 0.12);
 
-  /* Termômetro de aquisição */
-  --zone-1: #60a5fa;
-  --zone-2: #2563eb;
-  --zone-3: #f59e0b;
-  --zone-4: #ef4444;
-  --zone-5: #c41d33;
-
-  /* Sombras */
-  --shadow-sm: rgba(15, 23, 42, 0.04);
-  --shadow-md: rgba(15, 23, 42, 0.08);
-  --shadow-lg: rgba(15, 23, 42, 0.12);
+  /* Termômetro de aquisição — só com tokens validados da paleta */
+  --zone-1: #765756;
+  --zone-2: #2f7d4a;
+  --zone-3: #e5445a;
+  --zone-4: #c22236;
+  --zone-5: #1a0f0e;
 }
 
 * {
@@ -64,12 +59,12 @@ body {
 }
 
 body {
-  font-family: var(--font-poppins), "Poppins", system-ui, sans-serif;
+  font-family: var(--font-body), "IBM Plex Mono", monospace;
   font-weight: 400;
 }
 
 .heading {
-  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-family: var(--font-heading), "Space Grotesk", sans-serif;
   font-weight: 700;
   color: var(--heading);
   text-transform: uppercase;
@@ -79,12 +74,11 @@ body {
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  box-shadow: 0 1px 2px var(--shadow-sm), 0 8px 24px -8px var(--shadow-md);
+  border-radius: 20px;
 }
 
 .mono-num {
-  font-family: var(--font-poppins), "Poppins", sans-serif;
+  font-family: var(--font-body), "IBM Plex Mono", monospace;
   font-feature-settings: "tnum";
 }
 
@@ -161,7 +155,6 @@ body {
   border: 3px solid var(--brand);
   cursor: pointer;
   margin-top: -8px;
-  box-shadow: 0 1px 4px var(--shadow-md);
 }
 .df-slider::-moz-range-thumb {
   width: 22px;
@@ -190,7 +183,6 @@ body {
     background: #ffffff !important;
   }
   .card {
-    box-shadow: none !important;
     border: 1px solid #e5e7eb !important;
     break-inside: avoid;
   }
