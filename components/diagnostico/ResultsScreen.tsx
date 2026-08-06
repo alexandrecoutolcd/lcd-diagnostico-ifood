@@ -43,6 +43,10 @@ const ZONE_COLORS: Record<number, string> = {
   5: "var(--zone-5)",
 };
 
+// Link do botão de CTA "Quero falar com um consultor".
+// Troque pela URL real (WhatsApp, Calendly, formulário, etc.).
+const CONSULTANT_LINK = "https://wa.me/55XXXXXXXXXXX";
+
 interface ResultsScreenProps {
   lead: Lead;
   months: MonthData[];
@@ -440,7 +444,15 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
               Nossa consultoria ajuda restaurantes a encontrar o ponto ideal de investimento em
               promoções dentro do iFood — sem abrir mão de volume de vendas.
             </p>
-            <Button variant="dark" size="lg" onClick={() => setSent(true)} className="mx-auto print:hidden">
+            <Button
+              variant="dark"
+              size="lg"
+              onClick={() => {
+                window.open(CONSULTANT_LINK, "_blank");
+                setSent(true);
+              }}
+              className="mx-auto print:hidden"
+            >
               <MessageCircle size={16} /> Quero falar com um consultor
             </Button>
           </>
