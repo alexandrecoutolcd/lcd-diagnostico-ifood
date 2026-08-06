@@ -9,7 +9,7 @@ export function LandingScreen({ onStart }: { onStart: () => void }) {
     <div className="max-w-5xl mx-auto px-5 md:px-8 pt-10 md:pt-20 pb-24">
       <div className="df-fadeup">
         <div className="inline-flex items-center gap-2 mono-num text-xs uppercase tracking-wider px-3 py-1.5 rounded-full mb-7 border border-border text-body">
-          <Store size={13} /> Para restaurantes que vendem pelo iFood
+          <Store size={13} /> Para restaurantes que vendem via Delivery
         </div>
         <h1 className="heading text-[2.1rem] leading-[1.15] md:text-5xl font-semibold mb-6 max-w-3xl">
           Se você gasta mais com Serviços e Promoções nos MARKETPLACES do que a própria taxa padrão deles, você está enrolado.
