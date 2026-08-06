@@ -107,6 +107,55 @@ export function platformReference(pctTaxas: number): PlatformReference {
   return { ...nearest, diff, acimaDaReferencia: diff > 1.5 };
 }
 
+/**
+ * Custos padrão de operação de um restaurante, usados como média de mercado
+ * no Mini DRE — não vêm dos dados preenchidos pelo usuário.
+ */
+export const MARKET_CMV_PCT = 30;
+export const MARKET_CMO_PCT = 20;
+export const MARKET_CTO_PCT = 5;
+export const MARKET_IMPOSTOS_PCT = 10;
+
+/**
+ * Mini DRE por venda: a partir do ticket médio, aplica a % de plataforma e de
+ * marketing calculadas com os dados reais do usuário, e as médias de mercado
+ * fixas (CMV, mão de obra, ocupação, impostos), chegando ao resultado líquido
+ * por venda — positivo ou negativo.
+ */
+export function miniDRE(avg: Averages) {
+  const ticketMedio = avg.ticketMedio;
+  const plataformaPct = avg.pctTaxas;
+  const marketingPct = avg.pctPromocoes;
+
+  const plataforma = ticketMedio * (plataformaPct / 100);
+  const cmv = ticketMedio * (MARKET_CMV_PCT / 100);
+  const cmo = ticketMedio * (MARKET_CMO_PCT / 100);
+  const cto = ticketMedio * (MARKET_CTO_PCT / 100);
+  const impostos = ticketMedio * (MARKET_IMPOSTOS_PCT / 100);
+
+  const margemContribuicao = ticketMedio - plataforma - cmv - cmo - cto - impostos;
+  const marketing = ticketMedio * (marketingPct / 100);
+  const resultado = margemContribuicao - marketing;
+  const resultadoPct = ticketMedio > 0 ? (resultado / ticketMedio) * 100 : 0;
+
+  return {
+    ticketMedio,
+    plataforma,
+    plataformaPct,
+    cmv,
+    cmo,
+    cto,
+    impostos,
+    margemContribuicao,
+    marketing,
+    marketingPct,
+    resultado,
+    resultadoPct,
+  };
+}
+
+export type MiniDREResult = ReturnType<typeof miniDRE>;
+
 /** Quanto custa, em R$, gerar uma venda de ticket médio ao %Promoções atual. */
 export function acquisitionCost(ticketMedio: number, pctPromocoes: number): number {
   return (Number(ticketMedio) || 0) * ((Number(pctPromocoes) || 0) / 100);

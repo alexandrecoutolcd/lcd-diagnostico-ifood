@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
+  AlertTriangle,
   CheckCircle2,
   ChevronRight,
   Download,
@@ -27,6 +28,11 @@ import {
   autoSimulationScenarios,
   averages,
   classify,
+  MARKET_CMO_PCT,
+  MARKET_CMV_PCT,
+  MARKET_CTO_PCT,
+  MARKET_IMPOSTOS_PCT,
+  miniDRE,
   monthsWithDerived,
   platformReference,
   recommendations,
@@ -63,6 +69,7 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
     [avg, classification, platformRef]
   );
   const scenarios = useMemo(() => autoSimulationScenarios(avg), [avg]);
+  const dre = useMemo(() => miniDRE(avg), [avg]);
 
   const [simPct, setSimPct] = useState(Math.min(avg.pctPromocoes, 30));
   useEffect(() => setSimPct(Math.min(avg.pctPromocoes, 30)), [avg.pctPromocoes]);
@@ -362,6 +369,164 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
         </p>
       </Card>
 
+      {/* Mini DRE — resultado por venda */}
+      <Card className="p-6 md:p-8 mb-6 df-fadeup df-delay-4">
+        <div className="heading font-semibold mb-1">Mini DRE — Seu Resultado por Venda</div>
+        <p className="text-body text-xs mb-4 normal-case">
+          A partir do seu ticket médio, veja quanto realmente sobra depois dos custos da
+          plataforma e dos custos padrão de operação de um restaurante.
+        </p>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse min-w-[520px]">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-2 pr-4 text-body font-medium text-xs uppercase tracking-wide">
+                  Item
+                </th>
+                <th className="text-right py-2 px-3 text-body font-medium text-xs uppercase tracking-wide">
+                  %
+                </th>
+                <th className="text-right py-2 pl-3 text-body font-medium text-xs uppercase tracking-wide">
+                  Valor
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-divider">
+                <td className="py-2 pr-4 text-heading font-semibold whitespace-nowrap">
+                  Ticket Médio <DreTag type="media">média 3 meses</DreTag>
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-body">—</td>
+                <td className="text-right py-2 px-3 mono-num text-heading font-semibold whitespace-nowrap">
+                  {formatBRL(dre.ticketMedio)}
+                </td>
+              </tr>
+              <tr className="border-b border-divider">
+                <td className="py-2 pr-4 text-body whitespace-nowrap">
+                  (–) Plataforma (Taxas e Comissões) <DreTag type="real">seus dados</DreTag>
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-body-secondary whitespace-nowrap">
+                  {formatPercentBR(dre.plataformaPct)}
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-accent-neg whitespace-nowrap">
+                  – {formatBRL(dre.plataforma)}
+                </td>
+              </tr>
+              <tr className="border-b border-divider">
+                <td className="py-2 pr-4 text-body whitespace-nowrap">
+                  (–) CMV <DreTag type="media">média de mercado</DreTag>
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-body-secondary whitespace-nowrap">
+                  {formatPercentBR(MARKET_CMV_PCT)}
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-accent-neg whitespace-nowrap">
+                  – {formatBRL(dre.cmv)}
+                </td>
+              </tr>
+              <tr className="border-b border-divider">
+                <td className="py-2 pr-4 text-body whitespace-nowrap">
+                  (–) Mão de Obra (CMO) <DreTag type="media">média de mercado</DreTag>
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-body-secondary whitespace-nowrap">
+                  {formatPercentBR(MARKET_CMO_PCT)}
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-accent-neg whitespace-nowrap">
+                  – {formatBRL(dre.cmo)}
+                </td>
+              </tr>
+              <tr className="border-b border-divider">
+                <td className="py-2 pr-4 text-body whitespace-nowrap">
+                  (–) Custo de Ocupação (CTO) <DreTag type="media">média de mercado</DreTag>
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-body-secondary whitespace-nowrap">
+                  {formatPercentBR(MARKET_CTO_PCT)}
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-accent-neg whitespace-nowrap">
+                  – {formatBRL(dre.cto)}
+                </td>
+              </tr>
+              <tr className="border-b border-divider">
+                <td className="py-2 pr-4 text-body whitespace-nowrap">
+                  (–) Impostos <DreTag type="media">média de mercado</DreTag>
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-body-secondary whitespace-nowrap">
+                  {formatPercentBR(MARKET_IMPOSTOS_PCT)}
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-accent-neg whitespace-nowrap">
+                  – {formatBRL(dre.impostos)}
+                </td>
+              </tr>
+              <tr className="border-t-2 border-b-2 border-heading">
+                <td className="py-3 pr-4 text-heading font-bold whitespace-nowrap">
+                  (=) Margem de Contribuição{" "}
+                  <span className="text-body-secondary font-normal text-[11px] normal-case">
+                    (antes de marketing)
+                  </span>
+                </td>
+                <td className="text-right py-3 px-3 text-body">—</td>
+                <td className="text-right py-3 px-3 mono-num text-heading font-bold whitespace-nowrap">
+                  {formatBRL(dre.margemContribuicao)}
+                </td>
+              </tr>
+              <tr className="border-b border-divider">
+                <td className="py-2 pr-4 text-body whitespace-nowrap">
+                  (–) Serviços e Promoções (Marketing) <DreTag type="real">seus dados</DreTag>
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-body-secondary whitespace-nowrap">
+                  {formatPercentBR(dre.marketingPct)}
+                </td>
+                <td className="text-right py-2 px-3 mono-num text-accent-neg whitespace-nowrap">
+                  – {formatBRL(dre.marketing)}
+                </td>
+              </tr>
+              <tr>
+                <td className="py-3 pr-4 text-heading font-bold whitespace-nowrap">
+                  (=) Resultado por venda
+                </td>
+                <td
+                  className="text-right py-3 px-3 mono-num font-bold whitespace-nowrap"
+                  style={{ color: dre.resultado >= 0 ? "var(--accent-big-pos)" : "var(--accent-neg)" }}
+                >
+                  {dre.resultadoPct >= 0 ? "+" : ""}
+                  {formatPercentBR(dre.resultadoPct)}
+                </td>
+                <td
+                  className="text-right py-3 px-3 mono-num font-bold whitespace-nowrap"
+                  style={{ color: dre.resultado >= 0 ? "var(--accent-big-pos)" : "var(--accent-neg)" }}
+                >
+                  {dre.resultado >= 0 ? "+" : ""}
+                  {formatBRL(dre.resultado)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-muted text-[11px] leading-relaxed mt-4 normal-case">
+          <span className="font-semibold text-accent-pos">seus dados</span> = calculado com base
+          nos números que você preencheu (Taxas e Comissões, Serviços e Promoções).{" "}
+          <span className="font-semibold text-muted">média de mercado</span> = premissas fixas de
+          CMV, mão de obra, ocupação e impostos, usadas como referência padrão do setor de
+          restaurantes — não vêm do seu extrato do iFood. O percentual do Resultado por venda é
+          sempre Resultado ÷ Ticket Médio, com o sinal e a cor acompanhando o valor em R$, mesmo
+          quando o resultado é negativo.
+        </p>
+
+        <div
+          className="flex items-start gap-2.5 mt-4 p-4 rounded-xl border"
+          style={{ background: "var(--alert-light)", borderColor: "var(--alert)" }}
+        >
+          <AlertTriangle size={14} className="mt-0.5 shrink-0" style={{ color: "var(--alert)" }} />
+          <p className="text-[12.5px] leading-relaxed text-heading normal-case">
+            <span className="font-semibold text-brand">
+              Você ainda trabalha 100% com frete grátis?
+            </span>{" "}
+            Se sim, seu lucro reduz ainda mais — o custo do frete não está incluído nesta conta.
+          </p>
+        </div>
+      </Card>
+
       {/* Dados informados — tabela de conferência */}
       <Card className="p-6 md:p-8 mb-6 df-fadeup df-delay-4">
         <div className="heading font-semibold mb-1">Dados informados</div>
@@ -490,5 +655,17 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
         </Button>
       </div>
     </div>
+  );
+}
+
+/** Selinho "seus dados" / "média de mercado" usado nas linhas do Mini DRE. */
+function DreTag({ type, children }: { type: "real" | "media"; children: React.ReactNode }) {
+  return (
+    <span
+      className="mono-num text-[9px] uppercase tracking-wide px-1.5 py-0.5 rounded ml-1 bg-card-secondary whitespace-nowrap"
+      style={{ color: type === "real" ? "var(--accent-pos)" : "var(--muted)" }}
+    >
+      {children}
+    </span>
   );
 }
