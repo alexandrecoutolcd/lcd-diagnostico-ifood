@@ -12,7 +12,7 @@ const buttonVariants = cva(
         primary: "bg-brand text-white hover:bg-brand-hover active:translate-y-px",
         ghost: "border border-border text-body hover:border-border-strong hover:text-heading bg-transparent",
         accent: "bg-accent-pos text-white hover:bg-accent-pos-hover",
-        dark: "bg-white text-brand border border-white hover:bg-brand-xlight",
+        dark: "bg-white text-brand border border-white hover:bg-gray-100",
       },
       size: {
         sm: "px-3 py-1.5 text-xs",

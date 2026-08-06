@@ -287,7 +287,7 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
 
       {/* Gráficos */}
       <Card className="p-6 mb-6 df-fadeup df-delay-2">
-        <div className="heading font-semibold mb-1">Taxas, Promoções e Lucro por mês</div>
+        <div className="heading font-semibold mb-1">Taxas, Promoções e Receita Líquida por mês</div>
         <div className="text-body text-xs mb-2 normal-case">
           Comparação mês a mês dos três principais indicadores.
         </div>

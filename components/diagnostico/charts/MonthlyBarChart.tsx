@@ -19,7 +19,7 @@ export function MonthlyBarChart({ months }: { months: MonthData[] }) {
     name: `Mês ${i + 1}`,
     Taxas: Math.round(m.taxasComissoes),
     Promoções: Math.round(m.servicosPromocoes),
-    Lucro: Math.round(m.faturamentoLiquido),
+    "Receita Líquida": Math.round(m.faturamentoLiquido),
   }));
 
   return (
@@ -46,7 +46,7 @@ export function MonthlyBarChart({ months }: { months: MonthData[] }) {
         <Legend wrapperStyle={{ fontSize: 12, color: "var(--body)" }} />
         <Bar dataKey="Taxas" fill="var(--zone-1)" radius={[4, 4, 0, 0]} />
         <Bar dataKey="Promoções" fill="var(--zone-4)" radius={[4, 4, 0, 0]} />
-        <Bar dataKey="Lucro" fill="var(--zone-2)" radius={[4, 4, 0, 0]} />
+        <Bar dataKey="Receita Líquida" fill="var(--zone-2)" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );
