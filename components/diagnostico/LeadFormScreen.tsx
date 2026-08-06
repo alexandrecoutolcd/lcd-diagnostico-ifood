@@ -82,12 +82,12 @@ export function LeadFormScreen({ utm, onNext }: LeadFormScreenProps) {
             <input
               {...register("phone")}
               inputMode="numeric"
-              placeholder="11 98765-4321"
+              placeholder="11987654321"
               className="w-full px-4 py-3 text-sm bg-bg border border-border rounded-xl text-heading focus:outline-none focus:border-accent-pos focus:ring-2 focus:ring-accent-pos/20"
             />
             <div className="flex items-start gap-1.5 mt-1.5 text-[11px] text-body normal-case">
               <Info size={12} className="mt-0.5 shrink-0 text-accent-pos" />
-              Apenas DDD + número, sem o +55 (ex.: 11 98765-4321).
+              Apenas números, com DDD e telefone, sem espaços ou traços (ex.: 11987654321).
             </div>
           </Field>
 
