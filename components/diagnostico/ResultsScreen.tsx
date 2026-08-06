@@ -332,14 +332,18 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
         <div className="flex flex-col md:flex-row items-center gap-6">
           <div className="flex-1 grid grid-cols-3 gap-4 w-full">
             <div className="text-center">
-              <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">Ticket Médio</div>
+              <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">
+                Ticket Médio <span className="text-muted">(média dos 3 meses)</span>
+              </div>
               <div className="heading text-2xl font-semibold">{formatBRL(avg.ticketMedio)}</div>
             </div>
             <div className="text-center flex flex-col items-center justify-center text-body text-2xl">
               ×
             </div>
             <div className="text-center">
-              <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">% Promoções</div>
+              <div className="mono-num text-[10px] uppercase tracking-wide text-body mb-1">
+                % Promoções <span className="text-muted">(média dos 3 meses)</span>
+              </div>
               <div className="heading text-2xl font-semibold" style={{ color: zoneColor }}>
                 {formatPercentBR(avg.pctPromocoes)}
               </div>
