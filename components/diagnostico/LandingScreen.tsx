@@ -12,7 +12,7 @@ export function LandingScreen({ onStart }: { onStart: () => void }) {
           <Store size={13} /> Para restaurantes que vendem pelo iFood
         </div>
         <h1 className="heading text-[2.1rem] leading-[1.15] md:text-5xl font-semibold mb-6 max-w-3xl">
-          Se você gasta mais com Serviços e Promoções no iFood do que a própria taxa padrão deles, você está enrolado.
+          Se você gasta mais com Serviços e Promoções nos MARKETPLACES do que a própria taxa padrão deles, você está enrolado.
         </h1>
         <p className="text-body text-lg md:text-xl max-w-2xl leading-relaxed mb-10 normal-case">
           Em 5 minutos, transforme o extrato financeiro do seu iFood em um diagnóstico que mostra
