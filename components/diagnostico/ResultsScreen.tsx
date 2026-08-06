@@ -24,6 +24,7 @@ import { DistributionPie } from "./charts/DistributionPie";
 import { TimelineChart } from "./charts/TimelineChart";
 import {
   acquisitionCost,
+  autoSimulationScenarios,
   averages,
   classify,
   monthsWithDerived,
@@ -57,6 +58,7 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
     () => recommendations(avg, classification, platformRef),
     [avg, classification, platformRef]
   );
+  const scenarios = useMemo(() => autoSimulationScenarios(avg), [avg]);
 
   const [simPct, setSimPct] = useState(Math.min(avg.pctPromocoes, 30));
   useEffect(() => setSimPct(Math.min(avg.pctPromocoes, 30)), [avg.pctPromocoes]);
@@ -178,10 +180,49 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
             E se você reduzisse as promoções?
           </div>
           <p className="text-body text-sm mb-7 normal-case">
-            Arraste para simular um novo percentual de investimento em promoções e veja o quanto
-            de lucro isso devolveria para o seu bolso.
+            Compare abaixo alguns cenários automáticos ou arraste o controle para simular você
+            mesmo um novo percentual de investimento em promoções.
           </p>
 
+          {scenarios.length > 0 && (
+            <div className="mb-8">
+              <div className="mono-num text-[11px] uppercase tracking-wide text-body mb-3">
+                Comparando com o que você gasta hoje ({formatPercentBR(avg.pctPromocoes)})
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {scenarios.map((s) => (
+                  <div key={s.target} className="rounded-xl p-4 bg-card-secondary border border-divider">
+                    <div className="mono-num text-[11px] uppercase tracking-wide text-body mb-2">
+                      Se reduzir para{" "}
+                      <span className="font-semibold" style={{ color: ZONE_COLORS[classify(s.target).zone] }}>
+                        {s.target}%
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-body mb-0.5">Por mês</div>
+                    <div
+                      className="heading text-base font-semibold mb-2"
+                      style={{ color: s.deltaMensal >= 0 ? "var(--accent-big-pos)" : "var(--accent-neg)" }}
+                    >
+                      {s.deltaMensal >= 0 ? "+" : ""}
+                      {formatBRL(s.deltaMensal)}
+                    </div>
+                    <div className="text-[11px] text-body mb-0.5">Por ano</div>
+                    <div
+                      className="heading text-base font-semibold"
+                      style={{ color: s.deltaAnual >= 0 ? "var(--accent-big-pos)" : "var(--accent-neg)" }}
+                    >
+                      {s.deltaAnual >= 0 ? "+" : ""}
+                      {formatBRL(s.deltaAnual)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mono-num text-[11px] uppercase tracking-wide text-body mb-3">
+            Ou ajuste você mesmo
+          </div>
           <div className="mb-2 flex items-center justify-between">
             <span className="mono-num text-xs text-body">Novo % de Promoções</span>
             <span

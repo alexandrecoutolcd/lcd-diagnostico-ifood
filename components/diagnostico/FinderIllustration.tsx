@@ -20,10 +20,10 @@ export function FinderIllustration() {
         {ROWS.map((row) => (
           <div
             key={row.tag}
-            className="flex items-center justify-between gap-3 rounded-lg px-3 py-2 border border-dashed border-border"
+            className="flex flex-col gap-1.5 rounded-lg px-3 py-2.5 border border-dashed border-border"
           >
             <span className="text-xs text-body normal-case">{row.label}</span>
-            <span className="mono-num text-[10px] font-semibold px-2 py-1 rounded shrink-0 bg-accent-pos text-bg">
+            <span className="mono-num text-[10px] font-semibold px-2 py-1 rounded self-start bg-accent-pos text-white whitespace-nowrap">
               → {row.tag}
             </span>
           </div>

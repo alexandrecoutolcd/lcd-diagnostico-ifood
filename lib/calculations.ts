@@ -125,6 +125,17 @@ export function simulate(avg: Averages, novoPctPromocoes: number): SimulationRes
   };
 }
 
+/**
+ * Cenários automáticos do simulador: compara o %Promoções atual com alguns
+ * patamares de referência mais baixos, mostrando de cara o quanto isso
+ * mudaria o resultado - sem a pessoa precisar arrastar nada.
+ */
+export function autoSimulationScenarios(avg: Averages): (SimulationResult & { target: number })[] {
+  const CANDIDATE_TARGETS = [10, 8, 5];
+  const targets = CANDIDATE_TARGETS.filter((t) => t < avg.pctPromocoes - 0.05).slice(0, 3);
+  return targets.map((target) => ({ target, ...simulate(avg, target) }));
+}
+
 /** Recomendações automáticas com base nos indicadores calculados. */
 export function recommendations(
   avg: Averages,
@@ -135,9 +146,9 @@ export function recommendations(
 
   if (classification.zone >= 4) {
     recs.push({
-      title: "Reduzir promoções gradualmente",
+      title: "Repensar o investimento em promoções",
       detail:
-        "Corte a intensidade das campanhas em etapas, monitorando o efeito no volume de pedidos a cada ajuste.",
+        "Vale estruturar um plano para reavaliar, com calma, o quanto está sendo investido em campanhas e cupons — e se esse patamar ainda faz sentido para o momento atual do negócio.",
     });
     recs.push({
       title: "Revisar o cardápio",
@@ -165,11 +176,6 @@ export function recommendations(
   recs.push({
     title: "Migrar parte das vendas para canal próprio",
     detail: "Cada pedido feito fora do marketplace elimina a taxa e a promoção associadas a ele.",
-  });
-  recs.push({
-    title: "Melhorar a recorrência de clientes",
-    detail:
-      "Um cliente que retorna sem incentivo custa muito menos do que um cliente novo adquirido via promoção.",
   });
   if (avg.ticketMedio < 60) {
     recs.push({
