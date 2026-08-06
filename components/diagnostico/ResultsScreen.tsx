@@ -437,7 +437,7 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
       <Card className="p-8 md:p-10 text-center df-fadeup df-delay-4 border-none" style={{ background: "var(--brand)" }}>
         {!sent ? (
           <>
-            <div className="heading text-2xl font-semibold mb-2 text-white">
+            <div className="heading text-2xl font-semibold mb-2 text-[#f9f9f9]">
               Quer transformar este diagnóstico em um plano de ação?
             </div>
             <p className="text-sm mb-6 max-w-lg mx-auto text-white/85 normal-case">
