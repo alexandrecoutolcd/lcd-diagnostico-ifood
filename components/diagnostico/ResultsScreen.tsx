@@ -518,12 +518,29 @@ export function ResultsScreen({ lead, months, onRestart }: ResultsScreenProps) {
           style={{ background: "var(--alert-light)", borderColor: "var(--alert)" }}
         >
           <AlertTriangle size={14} className="mt-0.5 shrink-0" style={{ color: "var(--alert)" }} />
-          <p className="text-[12.5px] leading-relaxed text-heading normal-case">
-            <span className="font-semibold text-brand">
-              Você ainda trabalha 100% com frete grátis?
-            </span>{" "}
-            Se sim, seu lucro reduz ainda mais — o custo do frete não está incluído nesta conta.
-          </p>
+          <div className="text-[12.5px] leading-relaxed text-heading normal-case">
+            <p className="font-semibold text-brand mb-2">
+              Por que não incluímos custo de frete aqui?{" "}
+              <span className="font-normal text-body-secondary">
+                (Listamos 3 de vários possíveis cenários.)
+              </span>
+            </p>
+            <ul className="space-y-1.5 pl-4 list-disc marker:text-alert">
+              <li>
+                <strong>Cenário 1:</strong> é raro, mas se você contrata motoboy via CLT, esse
+                custo será diluído entre custo de mão de obra e possível variável por entrega.
+              </li>
+              <li>
+                <strong>Cenário 2:</strong> se você cobra uma fatia do frete e custeia outra
+                fatia, esse valor precisa ser diluído na precificação — ou seja, seu resultado
+                diminui ainda mais, e você tem lucro menor ainda do que o estimado nesta conta.
+              </li>
+              <li>
+                <strong>Cenário 3:</strong> se você cobra 100% do frete em todos os pedidos, ele
+                não estará na precificação do produto.
+              </li>
+            </ul>
+          </div>
         </div>
       </Card>
 
