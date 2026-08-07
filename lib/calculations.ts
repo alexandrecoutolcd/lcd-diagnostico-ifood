@@ -15,7 +15,10 @@ export function clamp(value: number, min: number, max: number): number {
 /** Faturamento Líquido, % Taxas e % Promoções de um único mês. */
 export function monthDerived(month: MonthData): Omit<MonthDerived, keyof MonthData> {
   const { totalVendas, taxasComissoes, servicosPromocoes, ajustes } = month;
-  const faturamentoLiquido = totalVendas - taxasComissoes - servicosPromocoes - ajustes;
+  // Ajustes é um valor com sinal, igual ao extrato do iFood: negativo quando a
+  // loja deve para a plataforma, positivo quando a plataforma reembolsa a loja.
+  // Por isso ele é SOMADO (não subtraído) - um ajuste negativo já reduz o total sozinho.
+  const faturamentoLiquido = totalVendas - taxasComissoes - servicosPromocoes + ajustes;
   const pctTaxas = totalVendas > 0 ? (taxasComissoes / totalVendas) * 100 : 0;
   const pctPromocoes = totalVendas > 0 ? (servicosPromocoes / totalVendas) * 100 : 0;
   return { faturamentoLiquido, pctTaxas, pctPromocoes };
@@ -164,7 +167,7 @@ export function acquisitionCost(ticketMedio: number, pctPromocoes: number): numb
 /** Simulador: recalcula o faturamento líquido para um novo %Promoções hipotético. */
 export function simulate(avg: Averages, novoPctPromocoes: number): SimulationResult {
   const novoServico = avg.totalVendas * (novoPctPromocoes / 100);
-  const novoFaturamento = avg.totalVendas - avg.taxasComissoes - novoServico - avg.ajustes;
+  const novoFaturamento = avg.totalVendas - avg.taxasComissoes - novoServico + avg.ajustes;
   const deltaMensal = novoFaturamento - avg.faturamentoLiquido;
   return {
     novoServico,

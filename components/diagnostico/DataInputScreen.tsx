@@ -21,7 +21,7 @@ const FIELD_DEFS: FieldDef[] = [
   { key: "totalVendas", label: "Total de Vendas", help: "Soma bruta de tudo que foi vendido no mês." },
   { key: "taxasComissoes", label: "Taxas e Comissões", help: "Valor retido pela plataforma sobre as vendas." },
   { key: "servicosPromocoes", label: "Serviços e Promoções", help: "Valor investido em campanhas, cupons e destaques." },
-  { key: "ajustes", label: "Ajustes", help: "Estornos, cancelamentos e outras correções do período." },
+  { key: "ajustes", label: "Ajustes", help: "Pode ser negativo (você deve ao iFood) ou positivo (o iFood reembolsou você)." },
   { key: "ticketMedio", label: "Ticket Médio", help: "Valor médio de cada pedido no mês." },
 ];
 
@@ -91,7 +91,11 @@ export function DataInputScreen({ months, setMonths, onNext }: DataInputScreenPr
                   </label>
                   <span className="text-body text-[11px] normal-case text-right">{f.help}</span>
                 </div>
-                <CurrencyInput value={months[tab][f.key]} onChange={(v) => update(f.key, v)} />
+                <CurrencyInput
+                  value={months[tab][f.key]}
+                  onChange={(v) => update(f.key, v)}
+                  allowNegative={f.key === "ajustes"}
+                />
               </div>
             ))}
           </div>

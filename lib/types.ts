@@ -88,7 +88,7 @@ export const EMPTY_MONTH: MonthData = {
 };
 
 export const SAMPLE_MONTHS: MonthData[] = [
-  { totalVendas: 62000, taxasComissoes: 9424, servicosPromocoes: 8680, ajustes: 950, ticketMedio: 81 },
-  { totalVendas: 65500, taxasComissoes: 9956, servicosPromocoes: 9430, ajustes: 1100, ticketMedio: 83 },
-  { totalVendas: 68200, taxasComissoes: 10365, servicosPromocoes: 9750, ajustes: 1020, ticketMedio: 84 },
+  { totalVendas: 62000, taxasComissoes: 9424, servicosPromocoes: 8680, ajustes: -950, ticketMedio: 81 },
+  { totalVendas: 65500, taxasComissoes: 9956, servicosPromocoes: 9430, ajustes: -1100, ticketMedio: 83 },
+  { totalVendas: 68200, taxasComissoes: 10365, servicosPromocoes: 9750, ajustes: -1020, ticketMedio: 84 },
 ];
